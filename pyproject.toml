@@ -1,9 +1,15 @@
 [project]
 name = "tokenkit"
-version = "0.1.0"
+version = "0.1.2"
 description = "Calculate and visualize fertility and parity metrics for tokenizers"
 authors = [
-    { name = "Ada Zhang", email = "abz200026@gmail.com" }
+    { name = "Ada Zhang", email = "abz200026@gmail.com" },
+    { name = "Ada Zhang" },
+    { name = "Nihal Karim" },
+    { name = "Hamza Louzan" },
+    { name = "Victor Wei" },
+    { name = "Cody Carroll" },
+    { name = "Jessica Lundin" }
 ]
 readme = "README.md"
 license = { text = "MIT" }
