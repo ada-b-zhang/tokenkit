@@ -5,15 +5,12 @@
 ---
 
 ## Installation
-
+In the terminal:
 ```bash
 pip install tokenkit
 ```
 
----
-
-## Imports
-
+Import:
 ```python
 from tokenkit import fertilize, paritize, TokenMetrics
 # or
