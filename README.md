@@ -47,12 +47,11 @@ tm.visualize_fertilities()
 tm.paritize(text_col1="text", text_col2="translation")
 ```
 
-Note that can use any Hugging Face AutoTokenizer:
+Note that can use any **publicly available** Hugging Face AutoTokenizer:
 
 ```python
 from transformers import AutoTokenizer
-custom_tok = AutoTokenizer.from_pretrained("google/flan-t5-xxl")
-fertilize("Tokenizing with a custom model.", tokenizer=custom_tok)
+fertilize("Tokenizing with a custom model.", tokenizer="google/flan-t5-xxl")
 ```
 
 ---
