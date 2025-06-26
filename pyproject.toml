@@ -1,6 +1,6 @@
 [project]
 name = "tokenkit"
-version = "0.1.2"
+version = "0.1.3"
 description = "Calculate and visualize fertility and parity metrics for tokenizers"
 authors = [
     { name = "Ada Zhang", email = "abz200026@gmail.com" },

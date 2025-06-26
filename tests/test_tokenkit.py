@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from tokenkit import *
 
 ##############################################################################################################################################################################################################################################################################
@@ -93,7 +97,7 @@ def test_paritize():
     assert isinstance(parity, float)
     assert np.isclose(parity, expected_parity)
 
-    tokenizer=AutoTokenizer.from_pretrained('google/gemma-2-9b')
+    tokenizer='google/gemma-2-9b'
 
     sA = 'kah tiàm tī Hesibóng tsò ông, Amô͘lī lâng ê ông Sihông tsiah-ê siâⁿ, kàu Ammóng lâng ê kau-kài;'
     sB = 'and all the cities of Sihon king of the Amorites, who reigned in Heshbon, to the border of the children of Ammon;'
@@ -121,7 +125,6 @@ def test_paritize():
     print('Expected parity:', expected_parity)
     assert isinstance(parity, float)
     assert np.isclose(parity, expected_parity)
-
 
 def test_paritize_empty_text(): 
     sA = ''
@@ -160,7 +163,7 @@ def test_phi35():
     # Model: microsoft/Phi-3.5-mini-instruct
     global texts
     global texts2
-    tokenizer = AutoTokenizer.from_pretrained('microsoft/Phi-3.5-mini-instruct')
+    tokenizer = 'microsoft/Phi-3.5-mini-instruct'
     expected_tokens1 = [['▁The', '▁sky', '▁is', '▁bright', '▁today', '.'],
                         ['▁I', '▁love', '▁classical', '▁music', '.'],
                         ['▁Data', '▁science', '▁is', '▁fasc', 'in', 'ating', '.'],
@@ -200,7 +203,7 @@ def test_phi35():
 def test_flan_t5(): 
     global texts
     global texts2
-    tokenizer = AutoTokenizer.from_pretrained('google/flan-t5-xxl')
+    tokenizer = 'google/flan-t5-xxl'
     expected_tokens1 = [['▁The', '▁sky', '▁is', '▁bright', '▁today', '.'], 
                         ['▁I', '▁love', '▁classical', '▁music', '.'], 
                         ['▁Data', '▁science', '▁is', '▁fascinating', '.'], 
@@ -233,7 +236,7 @@ def test_aya():
     # Model: CohereForAI/aya-101
     global texts
     global texts2
-    tokenizer = AutoTokenizer.from_pretrained('CohereForAI/aya-101')
+    tokenizer = 'CohereForAI/aya-101'
     expected_tokens1 = [['▁The', '▁sky', '▁is', '▁bright', '▁today', '.'], 
                         ['▁I', '▁love', '▁classic', 'al', '▁music', '.'], 
                         ['▁Data', '▁science', '▁is', '▁fascina', 'ting', '.'], 
@@ -266,7 +269,7 @@ def test_bloomz():
     # Model: bigscience/bloomz-7b1
     global texts
     global texts2
-    tokenizer = AutoTokenizer.from_pretrained('bigscience/bloomz-7b1')
+    tokenizer = 'bigscience/bloomz-7b1'
     expected_tokens1 = [['The', 'Ġsky', 'Ġis', 'Ġbright', 'Ġtoday', '.'], 
                         ['I', 'Ġlove', 'Ġclassical', 'Ġmusic', '.'], 
                         ['Data', 'Ġscience', 'Ġis', 'Ġfascin', 'ating', '.'], 
@@ -303,7 +306,7 @@ def test_bloomz():
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 @pytest.fixture
 def token_metrics():
-    tokenizer = AutoTokenizer.from_pretrained('meta-llama/Llama-3.2-1B-Instruct')
+    tokenizer = 'meta-llama/Llama-3.2-1B-Instruct'
     empty_df = pd.DataFrame(columns=["language", "text", "translation"])  
     return TokenMetrics(data=empty_df, tokenizer=tokenizer)
 
@@ -323,7 +326,7 @@ def test_help_fertilize(token_metrics):
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 @pytest.fixture
 def token_metrics():
-    tokenizer = AutoTokenizer.from_pretrained('meta-llama/Llama-3.2-1B-Instruct')
+    tokenizer = 'meta-llama/Llama-3.2-1B-Instruct'
     test_df = pd.DataFrame({
         "language": ["English", "French", "Spanish"],
         "text": ["This is a test sentence.",
@@ -369,7 +372,7 @@ def test_small_df(small_test_df):
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 @pytest.fixture
 def token_metrics():
-    tokenizer = AutoTokenizer.from_pretrained('meta-llama/Llama-3.2-1B-Instruct')
+    tokenizer = 'meta-llama/Llama-3.2-1B-Instruct'
     test_df = pd.DataFrame({"language": ["English", "French", "Spanish"],
                             "text": ["This is a test sentence.",
                                      "Ceci est une phrase de test.",
@@ -391,7 +394,7 @@ def test_visualize_fertilities(token_metrics, fertilized_data):
 # Test `help_paritize`
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 def test_help_paritize():
-    tokenizer = AutoTokenizer.from_pretrained('meta-llama/Llama-3.2-1B-Instruct')
+    tokenizer = 'meta-llama/Llama-3.2-1B-Instruct'
     test_df = pd.DataFrame({"text": ["This is a test sentence.",
                                         "Ceci est une phrase de test.",
                                         "Esta es una oración de prueba."],
@@ -427,7 +430,7 @@ def test_help_paritize():
 
 
 def test__help_paritize2():
-    tokenizer = AutoTokenizer.from_pretrained('google/gemma-2-9b')
+    tokenizer = 'google/gemma-2-9b'
     test_df = pd.DataFrame({"text": ["Tī thinn-tíng khí I ê pâng-king, tī tē-tsiūⁿ hē kiong-tshong ê tē-ki, kiò hái tsuí lâi piàⁿ tī tē-ni̍h ê, I ê miâ kiò-tsò I-é-ho-bah.",
                                      "I koh tû-khì Iôtah lia̍t ông hiàn hō͘ ji̍t-thâu hiah-ê bé, tī ji̍p Siōngtsú tiān ê só͘-tsāi, tī thài-kàm Náthan Meli̍k uá-kīn mn̂g-lông ê tshù, koh īng hué sio ji̍t-thâu hiah-ê tshia.",
                                      "Tsú ê hiann-tī Iâkop í-guā, guá lóng bô kìⁿ-kuè kî-tha ê sù-tô͘."],
@@ -465,7 +468,7 @@ def test__help_paritize2():
 # Test `help_paritize`
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 def test_paritize():
-    tokenizer = AutoTokenizer.from_pretrained('google/gemma-2-9b')
+    tokenizer = 'google/gemma-2-9b'
     test_df = pd.DataFrame({"text": ["Tī guá lâi tsit ê hō͘-chū.",
                                      "I só͘-tshut ê sū sī tsiok gâu.",
                                      "Lí ē-tàng khòaⁿ guá ê tsheh."],

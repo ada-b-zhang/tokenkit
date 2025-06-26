@@ -3,9 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from typing import List, Tuple
 
-DEFAULT_TOKENIZER = 'meta-llama/Llama-3.2-1B-Instruct'
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 This is a library to calculate fertility and parity scores, as well as provide visualizations. 
 The default model is `meta-llama/Llama-3.2-1B-Instruct`. 
@@ -23,7 +20,7 @@ Parity calculation from https://arxiv.org/abs/2305.15425 (page 3).
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
-def fertilize(text: str, tokenizer=None) -> Tuple[float, List[str]]: 
+def fertilize(text: str, tokenizer='google/flan-t5-xxl') -> Tuple[float, List[str]]: 
     """ 
     Get the fertility score and tokens for a given text. 
 
@@ -31,21 +28,21 @@ def fertilize(text: str, tokenizer=None) -> Tuple[float, List[str]]:
     ----------
         - text (str): text for tokenization
         - tokenizer (tokenizer): model/tokenizer 
-          (optional, defaults to `meta-llama/Llama-3.2-1B-Instruct`)
+          (optional, defaults to `google/flan-t5-xxl`)
 
     Returns
     -------
         - score (float): fertility score
         - tokenized (list): list of tokens 
     """ 
-    tokenizer = tokenizer or AutoTokenizer.from_pretrained(DEFAULT_TOKENIZER)
-    tokens = tokenizer.tokenize(text) 
+    loaded_tokenizer = AutoTokenizer.from_pretrained(tokenizer)
+    tokens = loaded_tokenizer.tokenize(text) 
     num_words = len(text.split())
     score = len(tokens) / num_words if num_words > 0 else float('inf')  
     return score, tokens
 
 
-def paritize(sA: str, sB: str, tokenizer=None) -> float: 
+def paritize(sA: str, sB: str, tokenizer='google/flan-t5-xxl') -> float: 
     """ 
     Calculate parity score for a text and its translation. 
     "Premium" is the actual score, "parity" is when the score is ~1.    
@@ -55,22 +52,23 @@ def paritize(sA: str, sB: str, tokenizer=None) -> float:
         - sA (string): sentence in language A    
         - sB (string): translation of `sA` in language B
         - tokenizer (tokenizer): model/tokenizer 
-          (optional, defaults to `meta-llama/Llama-3.2-1B-Instruct`)
+          (optional, defaults to `google/flan-t5-xxl`)
 
     Returns
     -------
         - parity (float): parity score for A relative to B (if this is ~1, it achieves parity)
     """
-    tokenizer = tokenizer or AutoTokenizer.from_pretrained(DEFAULT_TOKENIZER)
-    sA_tokens = tokenizer.tokenize(sA)
-    sB_tokens = tokenizer.tokenize(sB)
+    loaded_tokenizer = AutoTokenizer.from_pretrained(tokenizer)
+
+    sA_tokens = loaded_tokenizer.tokenize(sA)
+    sB_tokens = loaded_tokenizer.tokenize(sB)
     return len(sA_tokens) / len(sB_tokens) if len(sB_tokens) > 0 else float('inf')
 
 
 class TokenMetrics:
     """Get token metrics and visualizations for a dataset."""
 
-    def __init__(self, data: pd.DataFrame, tokenizer=None):
+    def __init__(self, data: pd.DataFrame, tokenizer='google/flan-t5-xxl'):
         """ 
         Initialize the `TokenMetrics` class.
 
@@ -80,7 +78,7 @@ class TokenMetrics:
                                    Must contain only `language`, `text`, and `translation` columns,   
                                    where all columns are string-type. 
             - tokenizer (tokenizer): model/tokenizer 
-                                     (optional, defaults to `meta-llama/Llama-3.2-1B-Instruct`) 
+                                     (optional, defaults to `google/flan-t5-xxl`) 
 
         Returns
         -------
@@ -88,7 +86,7 @@ class TokenMetrics:
         """
         data = data.fillna("")
         self.data = data
-        self.tokenizer = tokenizer or AutoTokenizer.from_pretrained(DEFAULT_TOKENIZER)
+        self.loaded_tokenizer = AutoTokenizer.from_pretrained(tokenizer)
         self.fertilities = None
         self.parities = None
 
@@ -106,7 +104,7 @@ class TokenMetrics:
             - score (float): fertility score
             - tokenized (list): list of tokens 
         """ 
-        tokens = self.tokenizer.tokenize(text) 
+        tokens = self.loaded_tokenizer.tokenize(text) 
         num_words = len(text.split())
         score = len(tokens) / num_words if num_words > 0 else float('inf') 
         return score, tokens
@@ -191,8 +189,8 @@ class TokenMetrics:
         -------
             - score (float): parity score
         """ 
-        sA_tokens = self.tokenizer.tokenize(row[text_col1])
-        sB_tokens = self.tokenizer.tokenize(row[text_col2])
+        sA_tokens = self.loaded_tokenizer.tokenize(row[text_col1])
+        sB_tokens = self.loaded_tokenizer.tokenize(row[text_col2])
         return len(sA_tokens) / len(sB_tokens) if len(sB_tokens) > 0 else float('inf')
 
     def paritize(self, text_col1: str, text_col2: str) -> pd.DataFrame: 
